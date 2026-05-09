@@ -76,7 +76,7 @@ body {
   position: absolute;
   inset: 0;
   display: grid;
-  padding: 8.4% 5% 5%;
+  padding: 7.6% 5% 4.6%;
   animation: enter 320ms ease-out both;
 }
 
@@ -390,12 +390,26 @@ h1 {
 }
 
 .slideFlow {
-  grid-template-rows: auto 1fr auto;
-  gap: 1.4rem;
+  grid-template-rows: auto auto auto;
+  align-content: space-between;
+  gap: 1rem;
 }
 
 .flowHeader {
-  max-width: 70%;
+  max-width: 76%;
+}
+
+.flowHeader h1 {
+  max-width: 13ch;
+  font-size: clamp(2.05rem, 4.1vw, 4.85rem);
+  line-height: 0.98;
+}
+
+.flowHeader .body {
+  max-width: 46rem;
+  margin-top: 0.85rem;
+  font-size: clamp(0.78rem, 0.92vw, 1.04rem);
+  line-height: 1.42;
 }
 
 .flowDiagram {
@@ -411,8 +425,8 @@ h1 {
   position: relative;
   display: grid;
   align-content: center;
-  min-height: 10.5rem;
-  padding: 1.1rem 1rem;
+  min-height: 7.2rem;
+  padding: 0.8rem 0.75rem;
   border-right: 1px solid var(--hairline);
 }
 
@@ -422,23 +436,47 @@ h1 {
 
 .flowStep span {
   color: var(--accent);
-  font-size: clamp(1.8rem, 2.4vw, 2.7rem);
+  font-size: clamp(1.55rem, 1.95vw, 2.25rem);
   font-weight: 860;
   line-height: 1;
 }
 
 .flowStep strong {
-  margin-top: 0.75rem;
+  margin-top: 0.48rem;
   color: var(--ink);
-  font-size: clamp(0.78rem, 0.95vw, 1.08rem);
-  line-height: 1.2;
+  font-size: clamp(0.68rem, 0.78vw, 0.9rem);
+  line-height: 1.16;
 }
 
 .flowFooter {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 1.35rem;
   align-items: start;
+}
+
+.slideFlow .keyMessage {
+  padding-top: 0.72rem;
+}
+
+.slideFlow .keyMessage p {
+  margin-top: 0.36rem;
+  font-size: clamp(0.72rem, 0.86vw, 0.96rem);
+  line-height: 1.32;
+}
+
+.slideFlow .details {
+  gap: 0.78rem;
+}
+
+.slideFlow .details article {
+  padding-top: 0.62rem;
+}
+
+.slideFlow .details p {
+  margin-top: 0.32rem;
+  font-size: clamp(0.64rem, 0.74vw, 0.84rem);
+  line-height: 1.34;
 }
 
 .slideMatrix {
@@ -566,8 +604,9 @@ h1 {
 
 .slideClosing {
   grid-template-columns: 0.78fr 1.22fr;
-  grid-template-rows: auto auto 1fr;
-  gap: 1.35rem 3rem;
+  grid-template-rows: auto auto auto auto;
+  align-content: center;
+  gap: 0.95rem 3rem;
   align-items: center;
 }
 
@@ -584,14 +623,16 @@ h1 {
 
 .slideClosing h1 {
   max-width: 10.5ch;
-  font-size: clamp(2.35rem, 4vw, 4.65rem);
+  font-size: clamp(2.15rem, 3.55vw, 4.1rem);
   line-height: 1.02;
 }
 
 .slideClosing .body {
   align-self: start;
   max-width: 31rem;
-  margin-top: -1rem;
+  margin-top: -0.55rem;
+  font-size: clamp(0.76rem, 0.9vw, 1rem);
+  line-height: 1.38;
 }
 
 .slideClosing .keyMessage,
@@ -607,7 +648,7 @@ h1 {
 }
 
 .slideClosing .imagePanel img {
-  aspect-ratio: 16 / 5;
+  aspect-ratio: 16 / 4.6;
 }
 
 .slideClosing .keyMessage {
@@ -626,23 +667,33 @@ h1 {
 }
 
 .slideClosing .flowStep {
-  min-height: 7.4rem;
-  padding: 0.85rem;
+  min-height: 5.8rem;
+  padding: 0.68rem;
 }
 
 .slideClosing .flowStep span {
-  font-size: clamp(1.4rem, 1.8vw, 2.05rem);
+  font-size: clamp(1.25rem, 1.55vw, 1.8rem);
 }
 
 .slideClosing .flowStep strong {
-  margin-top: 0.5rem;
-  font-size: clamp(0.68rem, 0.78vw, 0.86rem);
+  margin-top: 0.36rem;
+  font-size: clamp(0.6rem, 0.7vw, 0.78rem);
 }
 
 .slideClosing .details {
   grid-row: 4;
   width: 100%;
   align-self: start;
+  gap: 0.78rem;
+}
+
+.slideClosing .details article {
+  padding-top: 0.62rem;
+}
+
+.slideClosing .details p {
+  font-size: clamp(0.62rem, 0.72vw, 0.82rem);
+  line-height: 1.32;
 }
 
 .progress {
