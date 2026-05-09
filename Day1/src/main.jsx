@@ -192,7 +192,6 @@ function ToolSlide({ slide }) {
         <h1>{slide.title}</h1>
         <p className="body">{slide.body}</p>
         <KeyMessage slide={slide} />
-        {slide.hidePoints ? null : <Points points={slide.points} />}
         <Details details={slide.details} />
       </div>
     </section>

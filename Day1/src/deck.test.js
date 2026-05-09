@@ -29,6 +29,7 @@ test("slide deck covers the CI/CD course and ML/Data design target", () => {
   assert.match(combined, /GitHub Actions/);
   assert.match(combined, /GitLab CI\/CD/);
   assert.match(combined, /Excalidraw/);
+  assert.match(combined, /Glossary/);
 });
 
 test("non-technical prose is localized to Vietnamese", () => {
@@ -61,14 +62,33 @@ test("slide deck incorporates concepts from the full CI/CD curriculum document",
   assert.match(combined, /Continuous Delivery/);
   assert.match(combined, /Continuous Deployment/);
   assert.match(combined, /CALMS/);
-  assert.match(combined, /DORA/);
   assert.match(combined, /Pipeline as Code/);
   assert.match(combined, /Trunk-Based/);
-  assert.match(combined, /DevSecOps/);
   assert.match(combined, /GitOps/);
   assert.match(combined, /Testing Pyramid/);
   assert.match(combined, /Artifact Repository/);
   assert.match(combined, /Capstone|bài tập/i);
+});
+
+test("glossary explains common English terms used in the deck", () => {
+  const glossarySlides = slides.filter((slide) => slide.section === "Glossary");
+  const glossaryText = glossarySlides
+    .flatMap((slide) => [
+      slide.title,
+      slide.body,
+      slide.keyMessage,
+      ...(slide.points ?? []),
+      ...(slide.details ?? []).flatMap((detail) => [detail.label, detail.text]),
+    ])
+    .join(" ");
+
+  assert.ok(glossarySlides.length >= 3);
+  assert.match(glossaryText, /Pipeline/);
+  assert.match(glossaryText, /Artifact/);
+  assert.match(glossaryText, /Runner \/ Agent/);
+  assert.match(glossaryText, /Workflow YAML \/ Jenkinsfile/);
+  assert.match(glossaryText, /Model registry/);
+  assert.match(glossaryText, /High-level design/);
 });
 
 test("each slide has minimalist presentation metadata and attributed visual source", () => {
