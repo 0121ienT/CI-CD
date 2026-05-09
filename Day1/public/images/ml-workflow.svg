@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ML workflow</title>
+  <desc id="desc">Machine learning delivery flow with data validation, training, evaluation, registry, and deployment.</desc>
+  <rect width="1200" height="800" rx="44" fill="#f4f0fb"/>
+  <rect x="88" y="94" width="1024" height="612" rx="32" fill="#fff" stroke="#ded8ea" stroke-width="3"/>
+  <g font-family="Inter,Arial,sans-serif" font-weight="850">
+    <rect x="145" y="190" width="205" height="120" rx="20" fill="#14213d"/>
+    <text x="247" y="248" text-anchor="middle" font-size="28" fill="#fff">Validate</text>
+    <text x="247" y="282" text-anchor="middle" font-size="18" fill="#c7d1e2">schema · freshness</text>
+    <rect x="405" y="190" width="205" height="120" rx="20" fill="#007f7a"/>
+    <text x="507" y="248" text-anchor="middle" font-size="28" fill="#fff">Train</text>
+    <text x="507" y="282" text-anchor="middle" font-size="18" fill="#d6fffb">features · compute</text>
+    <rect x="665" y="190" width="205" height="120" rx="20" fill="#f08a24"/>
+    <text x="767" y="248" text-anchor="middle" font-size="28" fill="#fff">Evaluate</text>
+    <text x="767" y="282" text-anchor="middle" font-size="18" fill="#fff1dd">metrics · baseline</text>
+    <rect x="405" y="462" width="205" height="120" rx="20" fill="#6a4c93"/>
+    <text x="507" y="520" text-anchor="middle" font-size="28" fill="#fff">Registry</text>
+    <text x="507" y="554" text-anchor="middle" font-size="18" fill="#eadfff">versioned artifact</text>
+    <rect x="665" y="462" width="205" height="120" rx="20" fill="#2f6fdd"/>
+    <text x="767" y="520" text-anchor="middle" font-size="28" fill="#fff">Deploy</text>
+    <text x="767" y="554" text-anchor="middle" font-size="18" fill="#e6efff">service · batch</text>
+  </g>
+  <g fill="none" stroke="#9aa7bd" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M350 250 H405"/>
+    <path d="M610 250 H665"/>
+    <path d="M768 310 V462"/>
+    <path d="M665 522 H610"/>
+    <path d="M508 462 V310"/>
+  </g>
+  <circle cx="958" cy="522" r="72" fill="#fff" stroke="#14213d" stroke-width="5"/>
+  <text x="958" y="512" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="24" fill="#14213d">Monitor</text>
+  <text x="958" y="543" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="18" fill="#4d5b73">drift · health</text>
+</svg>

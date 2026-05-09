@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">CI/CD tool comparison</title>
+  <desc id="desc">Comparison of Jenkins, GitHub Actions, and GitLab CI/CD by control, integration, and runner model.</desc>
+  <rect width="1200" height="800" rx="44" fill="#f7f4ec"/>
+  <rect x="95" y="96" width="1010" height="608" rx="34" fill="#fff" stroke="#d9dfeb" stroke-width="3"/>
+  <g font-family="Inter,Arial,sans-serif" font-weight="850">
+    <text x="600" y="176" text-anchor="middle" font-size="44" fill="#14213d">Choose by operating model</text>
+    <g transform="translate(150 260)">
+      <rect width="260" height="310" rx="24" fill="#14213d"/>
+      <text x="130" y="80" text-anchor="middle" font-size="34" fill="#fff">Jenkins</text>
+      <text x="130" y="145" text-anchor="middle" font-size="23" fill="#dce6f6">Maximum control</text>
+      <text x="130" y="200" text-anchor="middle" font-size="23" fill="#dce6f6">Self-hosted ops</text>
+      <text x="130" y="255" text-anchor="middle" font-size="23" fill="#dce6f6">Custom workflows</text>
+    </g>
+    <g transform="translate(470 260)">
+      <rect width="260" height="310" rx="24" fill="#2f6fdd"/>
+      <text x="130" y="80" text-anchor="middle" font-size="34" fill="#fff">GitHub</text>
+      <text x="130" y="145" text-anchor="middle" font-size="23" fill="#e6efff">Repo-native</text>
+      <text x="130" y="200" text-anchor="middle" font-size="23" fill="#e6efff">PR automation</text>
+      <text x="130" y="255" text-anchor="middle" font-size="23" fill="#e6efff">Marketplace</text>
+    </g>
+    <g transform="translate(790 260)">
+      <rect width="260" height="310" rx="24" fill="#f08a24"/>
+      <text x="130" y="80" text-anchor="middle" font-size="34" fill="#fff">GitLab</text>
+      <text x="130" y="145" text-anchor="middle" font-size="23" fill="#fff2e4">Integrated DevOps</text>
+      <text x="130" y="200" text-anchor="middle" font-size="23" fill="#fff2e4">Stages and runners</text>
+      <text x="130" y="255" text-anchor="middle" font-size="23" fill="#fff2e4">Environments</text>
+    </g>
+  </g>
+</svg>

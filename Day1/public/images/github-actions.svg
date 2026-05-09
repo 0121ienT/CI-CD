@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">GitHub Actions workflow</title>
+  <desc id="desc">GitHub Actions workflow triggered by repository events and running jobs with reusable actions.</desc>
+  <rect width="1200" height="800" rx="44" fill="#eef4ff"/>
+  <rect x="95" y="108" width="1010" height="584" rx="34" fill="#fff" stroke="#d9e3f5" stroke-width="3"/>
+  <g font-family="Inter,Arial,sans-serif" font-weight="850">
+    <rect x="155" y="185" width="220" height="125" rx="22" fill="#14213d"/>
+    <text x="265" y="242" text-anchor="middle" font-size="29" fill="#fff">Repository</text>
+    <text x="265" y="278" text-anchor="middle" font-size="19" fill="#cbd6e6">push · pull request</text>
+    <rect x="490" y="185" width="220" height="125" rx="22" fill="#2f6fdd"/>
+    <text x="600" y="242" text-anchor="middle" font-size="29" fill="#fff">Workflow</text>
+    <text x="600" y="278" text-anchor="middle" font-size="19" fill="#e6efff">YAML definition</text>
+    <rect x="825" y="185" width="220" height="125" rx="22" fill="#007f7a"/>
+    <text x="935" y="242" text-anchor="middle" font-size="29" fill="#fff">Runner</text>
+    <text x="935" y="278" text-anchor="middle" font-size="19" fill="#d6fffb">hosted · self-hosted</text>
+  </g>
+  <g fill="none" stroke="#9aa7bd" stroke-width="6" stroke-linecap="round"><path d="M375 248 H490"/><path d="M710 248 H825"/></g>
+  <g font-family="Inter,Arial,sans-serif" font-weight="850" text-anchor="middle">
+    <rect x="220" y="455" width="190" height="94" rx="18" fill="#f08a24"/>
+    <text x="315" y="511" font-size="25" fill="#fff">Checkout</text>
+    <rect x="505" y="455" width="190" height="94" rx="18" fill="#6a4c93"/>
+    <text x="600" y="511" font-size="25" fill="#fff">Test</text>
+    <rect x="790" y="455" width="190" height="94" rx="18" fill="#1c7c54"/>
+    <text x="885" y="511" font-size="25" fill="#fff">Deploy</text>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.*
+
+Day1/node_modules/
+Day1/dist/
+
+*.log
+.DS_Store
+Thumbs.db
