@@ -61,9 +61,6 @@ test("slide deck incorporates concepts from the full CI/CD curriculum document",
 
   assert.match(combined, /Continuous Delivery/);
   assert.match(combined, /Continuous Deployment/);
-  assert.match(combined, /CALMS/);
-  assert.match(combined, /Pipeline as Code/);
-  assert.match(combined, /Trunk-Based/);
   assert.match(combined, /Testing Pyramid/);
   assert.match(combined, /Artifact Repository/);
   assert.match(combined, /Capstone|bài tập/i);

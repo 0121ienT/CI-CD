@@ -13,19 +13,6 @@ function Eyebrow({ slide }) {
   );
 }
 
-function Points({ points, ordered = false }) {
-  return (
-    <div className={ordered ? "points pointsOrdered" : "points"}>
-      {points.map((point, index) => (
-        <span key={point}>
-          {ordered ? String(index + 1).padStart(2, "0") : ""}
-          <b>{point}</b>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 function Details({ details }) {
   return (
     <div className="details">
@@ -115,7 +102,6 @@ function CoverSlide({ slide }) {
         <Eyebrow slide={slide} />
         <h1>{slide.title}</h1>
         {slide.body ? <p className="body">{slide.body}</p> : null}
-        <Points points={slide.points} />
       </div>
       <ImagePanel slide={slide} quiet />
       <KeyMessage slide={slide} />
@@ -140,7 +126,6 @@ function ConceptSlide({ slide }) {
       <div className="support">
         <KeyMessage slide={slide} />
         <Details details={slide.details} />
-        {slide.hidePoints ? null : <Points points={slide.points} />}
       </div>
     </section>
   );
