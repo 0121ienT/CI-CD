@@ -7,10 +7,10 @@ on:
   # Tu dong chay khi push vao main va chi khi co thay doi lien quan den Day1/workflow nay.
   push:
     branches:
-      - main
+      - main # khi mà mình push code lên main, main có thay đổi code thì chạy luồng CI/CD
     paths:
-      - "Day1/**"
-      - ".github/workflows/day1-pages.yml"
+      - "Day1/**" # Chỉ khi thay đổi file trong folder Day1 thì mới chạy
+      - ".github/workflows/day1-pages.yml" # Chỉ khi thay đổi file workflow thì mới chạy
   # Cho phep bam Run workflow thu cong tren tab Actions.
   workflow_dispatch:
 
@@ -56,6 +56,7 @@ jobs:
       - name: Run tests
         # Chay test noi dung slide va navigation truoc khi cho phep deploy.
         run: npm test
+        # pytest
 
   deploy:
     name: Build and deploy GitHub Pages

@@ -25,6 +25,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+body.printMode {
+  overflow: auto;
+}
+
 .deckShell {
   display: grid;
   place-items: center;
@@ -710,6 +714,23 @@ h1 {
   transition: width 220ms ease;
 }
 
+.printDeck {
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: #111827;
+}
+
+.printCanvas {
+  box-shadow: none;
+}
+
+.printCanvas .slide {
+  animation: none;
+}
+
 @keyframes enter {
   from {
     opacity: 0;
@@ -833,5 +854,52 @@ h1 {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
+  }
+}
+
+@media print {
+  @page {
+    size: 13.333in 7.5in;
+    margin: 0;
+  }
+
+  :root,
+  body,
+  body.printMode {
+    min-width: 0;
+    background: #f8f7f3;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.printMode {
+    overflow: visible;
+  }
+
+  .printDeck {
+    display: block;
+    min-height: 0;
+    padding: 0;
+    background: #f8f7f3;
+  }
+
+  .printDeck .slideCanvas {
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: auto;
+    overflow: hidden;
+    border-radius: 0;
+    box-shadow: none;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .printDeck .slideCanvas:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .printDeck .slide {
+    animation: none;
   }
 }

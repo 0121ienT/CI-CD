@@ -212,8 +212,16 @@ function App() {
   const [activeIndex, setActiveIndex] = useState(0);
   const slide = slides[activeIndex];
   const progress = useMemo(() => ((activeIndex + 1) / slides.length) * 100, [activeIndex]);
+  const isPrintMode = useMemo(() => new URLSearchParams(window.location.search).has("print"), []);
 
   useEffect(() => {
+    document.body.classList.toggle("printMode", isPrintMode);
+    return () => document.body.classList.remove("printMode");
+  }, [isPrintMode]);
+
+  useEffect(() => {
+    if (isPrintMode) return undefined;
+
     function handleKeyDown(event) {
       const nextIndex = getSlideIndexForKey(activeIndex, event);
 
@@ -225,7 +233,19 @@ function App() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeIndex]);
+  }, [activeIndex, isPrintMode]);
+
+  if (isPrintMode) {
+    return (
+      <main className="printDeck">
+        {slides.map((printSlide, index) => (
+          <div className="slideCanvas printCanvas" key={`${printSlide.title}-${index}`}>
+            <Slide slide={printSlide} />
+          </div>
+        ))}
+      </main>
+    );
+  }
 
   return (
     <main className="deckShell">
