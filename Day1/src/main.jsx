@@ -40,6 +40,8 @@ function Details({ details }) {
 }
 
 function KeyMessage({ slide }) {
+  if (slide.hideKeyMessage || !slide.keyMessage) return null;
+
   return (
     <aside className="keyMessage">
       <span>Ý chính</span>
@@ -112,7 +114,7 @@ function CoverSlide({ slide }) {
       <div className="coverContent">
         <Eyebrow slide={slide} />
         <h1>{slide.title}</h1>
-        <p className="body">{slide.body}</p>
+        {slide.body ? <p className="body">{slide.body}</p> : null}
         <Points points={slide.points} />
       </div>
       <ImagePanel slide={slide} quiet />
