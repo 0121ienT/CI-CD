@@ -85,9 +85,26 @@ test("glossary explains common English terms used in the deck", () => {
   assert.match(glossaryText, /Pipeline/);
   assert.match(glossaryText, /Artifact/);
   assert.match(glossaryText, /Runner \/ Agent/);
-  assert.match(glossaryText, /Workflow YAML \/ Jenkinsfile/);
+  assert.match(glossaryText, /Workflow YAML/);
+  assert.match(glossaryText, /Jenkinsfile/);
   assert.match(glossaryText, /Model registry/);
   assert.match(glossaryText, /High-level design/);
+});
+
+test("glossary matrix cards define every visible term without recycling text", () => {
+  const glossarySlides = slides.filter((slide) => slide.section === "Glossary");
+
+  for (const slide of glossarySlides) {
+    assert.equal(
+      slide.details.length,
+      slide.points.length,
+      `${slide.title} should have one definition per glossary term`,
+    );
+
+    slide.points.forEach((point, index) => {
+      assert.equal(slide.details[index].label, point, `${point} should map to its own definition`);
+    });
+  }
 });
 
 test("each slide has minimalist presentation metadata and attributed visual source", () => {
