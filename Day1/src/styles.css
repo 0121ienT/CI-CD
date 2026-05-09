@@ -653,10 +653,10 @@ h1 {
 }
 
 .slideClosing {
-  grid-template-columns: 0.78fr 1.22fr;
+  grid-template-columns: 0.72fr 1.28fr;
   grid-template-rows: auto auto auto auto;
   align-content: center;
-  gap: 0.95rem 3rem;
+  gap: 0.72rem 2.4rem;
   align-items: center;
 }
 
@@ -672,17 +672,17 @@ h1 {
 }
 
 .slideClosing h1 {
-  max-width: 10.5ch;
-  font-size: clamp(2.15rem, 3.55vw, 4.1rem);
+  max-width: 11.5ch;
+  font-size: clamp(1.95rem, 3.1vw, 3.65rem);
   line-height: 1.02;
 }
 
 .slideClosing .body {
   align-self: start;
-  max-width: 31rem;
-  margin-top: -0.55rem;
-  font-size: clamp(0.76rem, 0.9vw, 1rem);
-  line-height: 1.38;
+  max-width: 30rem;
+  margin-top: -0.35rem;
+  font-size: clamp(0.7rem, 0.82vw, 0.92rem);
+  line-height: 1.34;
 }
 
 .slideClosing .keyMessage,
@@ -698,13 +698,20 @@ h1 {
 }
 
 .slideClosing .imagePanel img {
-  aspect-ratio: 16 / 4.6;
+  aspect-ratio: 16 / 3.7;
 }
 
 .slideClosing .keyMessage {
   grid-row: 2;
   align-self: start;
   margin-top: 0;
+  padding-top: 0.62rem;
+}
+
+.slideClosing .keyMessage p {
+  margin-top: 0.32rem;
+  font-size: clamp(0.68rem, 0.78vw, 0.9rem);
+  line-height: 1.28;
 }
 
 .slideClosing .flowDiagram {
@@ -717,33 +724,35 @@ h1 {
 }
 
 .slideClosing .flowStep {
-  min-height: 5.8rem;
-  padding: 0.68rem;
+  min-height: 4.65rem;
+  padding: 0.5rem;
 }
 
 .slideClosing .flowStep span {
-  font-size: clamp(1.25rem, 1.55vw, 1.8rem);
+  font-size: clamp(1.05rem, 1.32vw, 1.52rem);
 }
 
 .slideClosing .flowStep strong {
-  margin-top: 0.36rem;
-  font-size: clamp(0.6rem, 0.7vw, 0.78rem);
+  margin-top: 0.26rem;
+  font-size: clamp(0.54rem, 0.62vw, 0.7rem);
+  line-height: 1.12;
 }
 
 .slideClosing .details {
   grid-row: 4;
   width: 100%;
   align-self: start;
-  gap: 0.78rem;
+  gap: 0.62rem;
 }
 
 .slideClosing .details article {
-  padding-top: 0.62rem;
+  padding-top: 0.48rem;
 }
 
 .slideClosing .details p {
-  font-size: clamp(0.62rem, 0.72vw, 0.82rem);
-  line-height: 1.32;
+  margin-top: 0.24rem;
+  font-size: clamp(0.56rem, 0.64vw, 0.74rem);
+  line-height: 1.26;
 }
 
 .progress {

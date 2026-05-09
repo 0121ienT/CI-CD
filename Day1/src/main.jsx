@@ -244,7 +244,7 @@ function App() {
     <main className="deckShell">
       <div className="slideCanvas" key={activeIndex}>
         <div className="topBar">
-          <span>Slide tối giản về CI/CD</span>
+          <span aria-hidden="true" />
           <span>
             {String(activeIndex + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
           </span>
