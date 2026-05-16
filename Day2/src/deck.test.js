@@ -57,14 +57,26 @@ test("deck is a Docker beginner lesson in Vietnamese", () => {
 
 test("deck includes Docker-specific visual slide types", () => {
   assert.ok(slides.some((slide) => slide.layout === "command" && slide.commands?.length >= 2));
-  assert.ok(slides.some((slide) => slide.layout === "comparison" && /Docker.*VM|VM.*Docker/i.test(textOf(slide))));
-  assert.ok(slides.some((slide) => slide.layout === "closing" && slide.roadmap?.length >= 3));
+  assert.ok(slides.some((slide) => slide.layout === "flow"));
+  assert.ok(slides.some((slide) => slide.layout === "concept"));
 });
 
 test("deck does not include exercise slides yet", () => {
   assert.ok(slides.every((slide) => slide.section !== "Exercise"));
   assert.ok(slides.every((slide) => slide.layout !== "exercise"));
   assert.doesNotMatch(slides.map(textOf).join(" "), /Bài tập|Checklist:/i);
+});
+
+test("deck omits VM comparison, wrap-up, and visible main idea blocks", () => {
+  const combined = slides.map(textOf).join(" ");
+  const main = fs.readFileSync(path.resolve("src/main.jsx"), "utf8");
+
+  assert.ok(slides.every((slide) => slide.section !== "Comparison"));
+  assert.ok(slides.every((slide) => slide.layout !== "comparison"));
+  assert.ok(slides.every((slide) => slide.section !== "Wrap-up"));
+  assert.ok(slides.every((slide) => slide.layout !== "closing"));
+  assert.doesNotMatch(combined, /Docker và VM|Docker.*VM|Virtual Machine|Wrap-up/i);
+  assert.doesNotMatch(main, /Main idea|keyMessage/);
 });
 
 test("public Day2 text avoids old session wording", () => {
@@ -138,16 +150,9 @@ test("container concept slide explains the idea in non-technical language", () =
 
 test("early concept slides are rewritten for the requested presentation flow", () => {
   const combinedProse = slides.map(visibleProseOf).join(" ");
-  const comparisonSlide = slides[5];
-  const flowSlide = slides[6];
+  const flowSlide = slides[5];
 
   assert.doesNotMatch(combinedProse, /;/);
-
-  assert.equal(comparisonSlide.title, "Docker và VM khác nhau thế nào?");
-  assert.match(textOf(comparisonSlide), /mỗi container chỉ đóng gói app/i);
-  assert.match(textOf(comparisonSlide), /VM giống một máy tính riêng/);
-  assert.match(textOf(comparisonSlide), /Dùng Docker khi/);
-  assert.match(textOf(comparisonSlide), /Dùng VM khi/);
 
   assert.equal(flowSlide.title, "Dockerfile, Image, Container");
   assert.equal(flowSlide.hideKeyMessage, true);
@@ -186,20 +191,21 @@ test("demo slides use runnable commands from the Day2 example app", () => {
   assert.doesNotMatch(demoText, /nginx:alpine|demo-api:v1/);
 });
 
-test("two basic Docker command slides appear before the demo and list each command function", () => {
+test("Docker command reference slides appear before the demo and list many commands with functions", () => {
   const firstDemoIndex = slides.findIndex((slide) => slide.section === "Demo");
-  const commandSlides = slides.filter((slide) => slide.section === "Docker CLI" && /lệnh Docker/i.test(slide.title));
+  const commandSlides = slides.filter((slide) => slide.commandReference);
   const commandSlideIndexes = commandSlides.map((commandSlide) => slides.indexOf(commandSlide));
   const commandText = commandSlides.map(textOf).join(" ");
 
-  assert.equal(commandSlides.length, 2);
+  assert.equal(commandSlides.length, 3);
   assert.ok(commandSlideIndexes.every((index) => index < firstDemoIndex), "basic Docker command slides should appear before demo slides");
-  assert.equal(commandSlideIndexes[1], commandSlideIndexes[0] + 1, "basic Docker command slides should be consecutive");
+  assert.deepEqual(commandSlideIndexes, commandSlideIndexes.toSorted((a, b) => a - b));
 
   for (const slide of commandSlides) {
     assert.equal(slide.layout, "command");
-    assert.ok(slide.commands.length >= 4, `${slide.title} should list enough commands`);
-    assert.ok(slide.commands.length <= 4, `${slide.title} should not overflow vertically`);
+    assert.ok(slide.commands.length >= 6, `${slide.title} should list many commands`);
+    assert.equal(slide.body, "");
+    assert.ok(slide.title.length <= 28, `${slide.title} should fit on one line`);
     for (const command of slide.commands) {
       assert.equal(command.resultLabel, "Chức năng");
       assert.ok(command.result.length > 20, `${command.code} should explain its function`);
@@ -216,12 +222,18 @@ test("two basic Docker command slides appear before the demo and list each comma
   assert.match(commandText, /docker images/);
   assert.match(commandText, /docker stop/);
   assert.match(commandText, /docker rm/);
+  assert.match(commandText, /docker rmi/);
   assert.match(commandText, /docker logs/);
   assert.match(commandText, /docker exec/);
   assert.match(commandText, /docker inspect/);
+  assert.match(commandText, /docker stats/);
+  assert.match(commandText, /docker volume ls/);
+  assert.match(commandText, /docker network ls/);
   assert.match(commandText, /docker compose up -d/);
   assert.match(commandText, /docker compose ps/);
   assert.match(commandText, /docker compose logs/);
+  assert.match(commandText, /docker compose exec/);
+  assert.match(commandText, /docker compose restart/);
   assert.match(commandText, /docker compose down/);
 });
 
@@ -284,6 +296,15 @@ test("flow slide footer keeps definition cards on one row", () => {
   assert.match(styles, /\.flowFooter \.details article\s*{[^}]*min-height:\s*auto/s);
   assert.match(main, /flowFooterWide/);
   assert.match(styles, /\.flowFooterWide\s*{[^}]*grid-template-columns:\s*1fr/s);
+});
+
+test("command reference layout is full width and compact", () => {
+  const main = fs.readFileSync(path.resolve("src/main.jsx"), "utf8");
+  const styles = fs.readFileSync(path.resolve("src/styles.css"), "utf8");
+
+  assert.match(main, /slideCommandReference/);
+  assert.match(styles, /\.slideCommandReference\s*{[^}]*grid-template-rows:\s*auto 1fr/s);
+  assert.match(styles, /\.slideCommandReference \.commandStack\s*{[^}]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/s);
 });
 
 test("each slide carries metadata for the modern Docker theme", () => {

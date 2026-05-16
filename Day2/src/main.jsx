@@ -55,17 +55,6 @@ function Eyebrow({ slide }) {
   );
 }
 
-function KeyMessage({ slide, label = "Main idea" }) {
-  if (slide.hideKeyMessage || !slide.keyMessage) return null;
-
-  return (
-    <aside className="keyMessage">
-      <span>{label}</span>
-      <p>{slide.keyMessage}</p>
-    </aside>
-  );
-}
-
 function Details({ details }) {
   return (
     <div className="details">
@@ -226,7 +215,6 @@ function CoverSlide({ slide }) {
         <p className="body">{slide.body}</p>
       </div>
       <CoverVisual />
-      <KeyMessage slide={slide} />
     </section>
   );
 }
@@ -238,7 +226,6 @@ function ConceptSlide({ slide }) {
         <Eyebrow slide={slide} />
         <h1>{slide.title}</h1>
         <p className="body">{slide.body}</p>
-        <KeyMessage slide={slide} />
       </div>
       <div className="support">
         <AnalogyVisual type={slide.visual} />
@@ -257,8 +244,7 @@ function FlowSlide({ slide }) {
         <p className="body">{slide.body}</p>
       </div>
       <FlowDiagram points={slide.points} />
-      <div className={`flowFooter ${slide.hideKeyMessage ? "flowFooterWide" : ""}`}>
-        <KeyMessage slide={slide} />
+      <div className="flowFooter flowFooterWide">
         <Details details={slide.details} />
       </div>
     </section>
@@ -289,7 +275,6 @@ function ComparisonSlide({ slide }) {
         })}
       </div>
       <div className="comparisonBottom">
-        <KeyMessage slide={slide} />
         <Details details={useCases} />
       </div>
     </section>
@@ -298,15 +283,14 @@ function ComparisonSlide({ slide }) {
 
 function CommandSlide({ slide }) {
   return (
-    <section className="slide slideCommand" data-tone={slide.tone}>
+    <section className={`slide slideCommand ${slide.commandReference ? "slideCommandReference" : ""}`} data-tone={slide.tone}>
       <div className="commandIntro">
         <Eyebrow slide={slide} />
         <h1>{slide.title}</h1>
-        <p className="body">{slide.body}</p>
-        <KeyMessage slide={slide} />
+        {slide.body ? <p className="body">{slide.body}</p> : null}
       </div>
       <CommandBlocks commands={slide.commands} />
-      <Details details={slide.details} />
+      {slide.commandReference ? null : <Details details={slide.details} />}
     </section>
   );
 }
@@ -318,7 +302,6 @@ function ExerciseSlide({ slide }) {
         <Eyebrow slide={slide} />
         <h1>{slide.title}</h1>
         <p className="body">{slide.body}</p>
-        <KeyMessage slide={slide} label="Tiêu chí hoàn thành" />
       </div>
       <div className="labCard">
         <div className="labHeader">
@@ -339,7 +322,6 @@ function ClosingSlide({ slide }) {
         <Eyebrow slide={slide} />
         <h1>{slide.title}</h1>
         <p className="body">{slide.body}</p>
-        <KeyMessage slide={slide} />
       </div>
       <div className="closingPanels">
         <div className="labCard">
