@@ -1,0 +1,10 @@
+apiVersion: 1
+
+providers:
+  - name: Workshop dashboards
+    folder: Docker Workshop
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards

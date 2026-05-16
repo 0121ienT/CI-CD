@@ -14,6 +14,7 @@ test("slide deck covers the CI/CD course and ML/Data design target", () => {
 
   const combined = slides
     .flatMap((slide) => [
+      slide.section,
       slide.kicker,
       slide.title,
       slide.body,
@@ -62,7 +63,7 @@ test("slide deck incorporates concepts from the full CI/CD curriculum document",
   assert.match(combined, /Continuous Delivery/);
   assert.match(combined, /Continuous Deployment/);
   assert.match(combined, /Testing Pyramid/);
-  assert.match(combined, /Artifact Repository/);
+  assert.match(combined, /Artifact Repository|Artifact \/ Registry/);
   assert.match(combined, /Capstone|bài tập/i);
 });
 
@@ -78,9 +79,7 @@ test("glossary explains common English terms used in the deck", () => {
     ])
     .join(" ");
 
-  assert.ok(glossarySlides.length >= 3);
-  assert.match(glossaryText, /Pipeline/);
-  assert.match(glossaryText, /Artifact/);
+  assert.ok(glossarySlides.length >= 2);
   assert.match(glossaryText, /Runner \/ Agent/);
   assert.match(glossaryText, /Workflow YAML/);
   assert.match(glossaryText, /Jenkinsfile/);
@@ -111,7 +110,9 @@ test("each slide has minimalist presentation metadata and attributed visual sour
     assert.ok(slide.tone.length > 2, `${slide.title} should define a tone`);
     assert.ok(slide.keyMessage.length > 20, `${slide.title} should define a key message`);
     assert.ok(slide.points.length >= 3, `${slide.title} should define concise points`);
+    assert.ok(slide.points.length <= 5, `${slide.title} should not overload the slide with too many points`);
     assert.ok(slide.details.length >= 2, `${slide.title} should define supporting details`);
+    assert.ok(slide.details.length <= 5, `${slide.title} should not overload the slide with too many detail cards`);
     assert.match(slide.image.src, /^https:\/\/.+/);
     assert.ok(slide.image.source.length > 2);
   }

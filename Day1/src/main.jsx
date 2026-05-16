@@ -31,7 +31,7 @@ function KeyMessage({ slide }) {
 
   return (
     <aside className="keyMessage">
-      <span>Ý chính</span>
+      <span>Main idea</span>
       <p>{slide.keyMessage}</p>
     </aside>
   );

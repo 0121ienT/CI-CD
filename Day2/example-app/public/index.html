@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docker Workshop Orders App</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Docker Compose demo</p>
+          <h1>Orders App</h1>
+          <p class="body">
+            A small web app with an API, PostgreSQL, Redis cache, Prometheus metrics, and Grafana dashboards.
+          </p>
+        </div>
+        <div class="status" id="status">Checking stack...</div>
+      </section>
+
+      <section class="grid">
+        <form class="panel" id="orderForm">
+          <h2>Create order</h2>
+          <label>
+            Customer
+            <input name="customer" value="Workshop learner" required />
+          </label>
+          <label>
+            Item
+            <input name="item" value="Docker notebook" required />
+          </label>
+          <label>
+            Quantity
+            <input name="quantity" type="number" min="1" value="1" required />
+          </label>
+          <button type="submit">Create order</button>
+        </form>
+
+        <section class="panel">
+          <h2>Stats</h2>
+          <div class="stats">
+            <article>
+              <span>Total orders</span>
+              <strong id="totalOrders">0</strong>
+            </article>
+            <article>
+              <span>Total items</span>
+              <strong id="totalItems">0</strong>
+            </article>
+            <article>
+              <span>Source</span>
+              <strong id="statsSource">-</strong>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <h2>Latest orders</h2>
+          <button type="button" id="refreshButton">Refresh</button>
+        </div>
+        <div class="orders" id="orders"></div>
+      </section>
+
+      <section class="links">
+        <a href="/health" target="_blank">API health</a>
+        <a href="/metrics" target="_blank">Prometheus metrics</a>
+        <a href="http://localhost:9090" target="_blank">Prometheus UI</a>
+        <a href="http://localhost:3001" target="_blank">Grafana UI</a>
+      </section>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
