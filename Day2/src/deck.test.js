@@ -20,18 +20,18 @@ const textOf = (slide) =>
     slide.keyMessage,
     ...(slide.points ?? []),
     ...(slide.details ?? []).flatMap((detail) => [detail.label, detail.text]),
-    ...(slide.commands ?? []).flatMap((command) => [command.label, command.code, command.result]),
+    ...(slide.commands ?? []).flatMap((command) => [command.label, command.code, command.resultLabel, command.result]),
     ...(slide.checklist ?? []),
     ...(slide.roadmap ?? []),
   ].join(" ");
 
-test("deck is a Docker beginner workshop in Vietnamese", () => {
+test("deck is a Docker beginner lesson in Vietnamese", () => {
   assert.ok(slides.length >= 14);
   assert.equal(slides[0].title, "Docker cơ bản cho người mới");
 
   const combined = slides.map(textOf).join(" ");
   assert.match(combined, /Docker/);
-  assert.match(combined, /beginner|người mới|workshop/i);
+  assert.match(combined, /beginner|người mới|bài học|buổi học/i);
   assert.match(combined, /Dockerfile/);
   assert.match(combined, /Image/);
   assert.match(combined, /Container/);
@@ -41,11 +41,33 @@ test("deck is a Docker beginner workshop in Vietnamese", () => {
   assert.match(combined, /docker compose up/);
 });
 
-test("deck includes workshop-specific visual slide types", () => {
+test("deck includes Docker-specific visual slide types", () => {
   assert.ok(slides.some((slide) => slide.layout === "command" && slide.commands?.length >= 2));
   assert.ok(slides.some((slide) => slide.layout === "comparison" && /Docker.*VM|VM.*Docker/i.test(textOf(slide))));
   assert.ok(slides.some((slide) => slide.layout === "exercise" && slide.checklist?.length >= 3));
   assert.ok(slides.some((slide) => slide.layout === "closing" && slide.roadmap?.length >= 3));
+});
+
+test("public Day2 text avoids old session wording", () => {
+  const oldTerm = "work" + "shop";
+  const oldTermPattern = new RegExp(`\\b${oldTerm}\\b`, "i");
+  const files = [
+    "package.json",
+    "package-lock.json",
+    "src/deck.js",
+    "src/main.jsx",
+    "example-app/README.md",
+    "example-app/package.json",
+    "example-app/package-lock.json",
+    "example-app/public/index.html",
+    "example-app/monitoring/grafana/provisioning/dashboards/dashboards.yml",
+    "example-app/monitoring/grafana/dashboards/orders-app.json",
+  ];
+
+  for (const file of files) {
+    const content = fs.readFileSync(path.resolve(file), "utf8");
+    assert.doesNotMatch(content, oldTermPattern, `${file} should not use old session wording`);
+  }
 });
 
 test("deck links to the full stack Compose example app", () => {
@@ -88,6 +110,11 @@ test("container concept slide explains the idea in non-technical language", () =
   assert.match(containerText, /gói chạy app/);
   assert.match(containerText, /những thứ cần thiết để app chạy/);
   assert.match(containerText, /dễ mang sang máy khác/);
+  assert.match(containerText, /Khái niệm thông thường/);
+  assert.match(containerText, /Ví dụ đời sống/);
+  assert.match(containerText, /hộp cơm chuẩn bị sẵn/);
+  assert.match(containerText, /món chính, muỗng và nước chấm/);
+  assert.doesNotMatch(containerText, /hộp đồ nghề|phép màu/i);
   assert.doesNotMatch(containerText, /kernel|process|filesystem|network/i);
 });
 
@@ -117,6 +144,51 @@ test("demo slides use runnable commands from the Day2 example app", () => {
   assert.match(demoText, /docker compose logs api/);
   assert.match(demoText, /docker compose down/);
   assert.doesNotMatch(demoText, /nginx:alpine|demo-api:v1/);
+});
+
+test("two basic Docker command slides appear before the demo and list each command function", () => {
+  const firstDemoIndex = slides.findIndex((slide) => slide.section === "Demo");
+  const commandSlides = slides.filter((slide) => slide.section === "Docker CLI" && /lệnh Docker/i.test(slide.title));
+  const commandSlideIndexes = commandSlides.map((commandSlide) => slides.indexOf(commandSlide));
+  const commandText = commandSlides.map(textOf).join(" ");
+
+  assert.equal(commandSlides.length, 2);
+  assert.ok(commandSlideIndexes.every((index) => index < firstDemoIndex), "basic Docker command slides should appear before demo slides");
+  assert.equal(commandSlideIndexes[1], commandSlideIndexes[0] + 1, "basic Docker command slides should be consecutive");
+
+  for (const slide of commandSlides) {
+    assert.equal(slide.layout, "command");
+    assert.ok(slide.commands.length >= 4, `${slide.title} should list enough commands`);
+    for (const command of slide.commands) {
+      assert.equal(command.resultLabel, "Chức năng");
+      assert.ok(command.result.length > 20, `${command.code} should explain its function`);
+    }
+  }
+
+  assert.match(commandText, /docker --version/);
+  assert.match(commandText, /docker compose version/);
+  assert.match(commandText, /docker pull/);
+  assert.match(commandText, /docker build/);
+  assert.match(commandText, /docker run/);
+  assert.match(commandText, /docker ps/);
+  assert.match(commandText, /docker ps -a/);
+  assert.match(commandText, /docker images/);
+  assert.match(commandText, /docker stop/);
+  assert.match(commandText, /docker rm/);
+  assert.match(commandText, /docker logs/);
+  assert.match(commandText, /docker exec/);
+  assert.match(commandText, /docker inspect/);
+  assert.match(commandText, /docker compose up -d/);
+  assert.match(commandText, /docker compose ps/);
+  assert.match(commandText, /docker compose logs/);
+  assert.match(commandText, /docker compose down/);
+});
+
+test("demo slides are grouped at the end of the deck", () => {
+  const firstDemoIndex = slides.findIndex((slide) => slide.section === "Demo");
+
+  assert.ok(firstDemoIndex > -1, "deck should include demo slides");
+  assert.ok(slides.slice(firstDemoIndex).every((slide) => slide.section === "Demo"));
 });
 
 test("example app includes API, web, database, cache, and monitoring assets", () => {
@@ -170,7 +242,7 @@ test("flow slide footer keeps definition cards on one row", () => {
   assert.match(styles, /\.flowFooter \.details article\s*{[^}]*min-height:\s*auto/s);
 });
 
-test("each slide carries metadata for the modern workshop theme", () => {
+test("each slide carries metadata for the modern Docker theme", () => {
   for (const slide of slides) {
     assert.ok(slide.section.length > 2, `${slide.title} should define a section`);
     assert.ok(slide.kicker.length > 2, `${slide.title} should define a kicker`);

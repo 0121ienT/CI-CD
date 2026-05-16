@@ -104,7 +104,7 @@
   ],
   "refresh": "5s",
   "schemaVersion": 40,
-  "tags": ["docker", "workshop"],
+  "tags": ["docker", "demo"],
   "templating": {
     "list": []
   },

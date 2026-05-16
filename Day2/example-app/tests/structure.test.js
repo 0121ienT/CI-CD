@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const appRoot = path.resolve(path.dirname(__filename), "..");
 
-test("compose file defines all workshop services", () => {
+test("compose file defines all demo services", () => {
   const compose = fs.readFileSync(path.join(appRoot, "docker-compose.yaml"), "utf8");
 
   assert.match(compose, /api:/);

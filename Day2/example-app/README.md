@@ -1,6 +1,6 @@
-# Docker Workshop Orders App
+# Docker Orders Demo App
 
-Small full-stack app for the Day2 Docker workshop.
+Small full-stack app for the Day2 Docker lesson.
 
 ## Stack
 

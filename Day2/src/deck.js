@@ -1,6 +1,6 @@
 const slideDefinitions = [
   {
-    section: "Workshop",
+    section: "Docker 101",
     kicker: "Docker 101",
     title: "Docker cơ bản cho người mới",
     body: "",
@@ -38,8 +38,8 @@ const slideDefinitions = [
     keyMessage: "Container giúp app chạy theo cùng một cách ở nhiều nơi: máy cá nhân, server, môi trường test hoặc pipeline CI/CD.",
     points: ["App", "Đồ cần để chạy", "Dễ mang đi", "Chạy nhất quán"],
     details: [
-      { label: "Dễ hình dung", text: "Giống một hộp đồ nghề: mở hộp ra là có đúng dụng cụ cần dùng, không phải cài lại từng món." },
-      { label: "Điểm cần nhớ", text: "Container không biến app thành phép màu; mình vẫn cần biết app dùng port nào, dữ liệu lưu ở đâu và cách xem log khi lỗi." },
+      { label: "Khái niệm thông thường", text: "Container là cách đóng gói app kèm những thứ app cần để chạy, rồi mang gói đó sang máy khác chạy lại theo cùng một cách." },
+      { label: "Ví dụ đời sống", text: "Giống một hộp cơm chuẩn bị sẵn: bên trong có món chính, muỗng và nước chấm; mang đến đâu cũng mở ra dùng được ngay." },
     ],
     visual: "analogy",
     layout: "concept",
@@ -111,6 +111,50 @@ const slideDefinitions = [
     ],
     layout: "command",
     tone: "teal",
+  },
+  {
+    section: "Docker CLI",
+    kicker: "Lệnh cơ bản",
+    title: "Các lệnh Docker cần biết: chạy app",
+    body: "Nhóm lệnh này dùng để kiểm tra Docker, tải image, build image, chạy container và xem container/image đang có trên máy.",
+    keyMessage: "Khi demo một app đơn giản, hãy nghĩ theo thứ tự: kiểm tra Docker, chuẩn bị image, chạy container, xem trạng thái rồi dừng hoặc xóa khi không cần nữa.",
+    points: ["Kiểm tra", "Image", "Run", "Lifecycle"],
+    details: [
+      { label: "Image", text: "Image là gói đã build hoặc tải về, dùng làm khuôn để tạo container." },
+      { label: "Container", text: "Container là bản đang chạy từ image, có tên, trạng thái, port và log riêng." },
+    ],
+    commands: [
+      { label: "Kiểm tra Docker", code: "docker --version\ndocker compose version", resultLabel: "Chức năng", result: "Kiểm tra máy đã có Docker CLI và Docker Compose hay chưa." },
+      { label: "Tải image", code: "docker pull nginx:alpine", resultLabel: "Chức năng", result: "Tải image có sẵn từ registry về máy local để chạy thử." },
+      { label: "Xem image", code: "docker images", resultLabel: "Chức năng", result: "Liệt kê các image đang có trên máy, gồm tên, tag và dung lượng." },
+      { label: "Build image", code: "docker build -t demo-api .", resultLabel: "Chức năng", result: "Tạo image mới từ Dockerfile trong thư mục hiện tại." },
+      { label: "Chạy container", code: "docker run --name web -p 8080:80 nginx:alpine", resultLabel: "Chức năng", result: "Tạo container từ image và map port 8080 trên máy vào port 80 trong container." },
+      { label: "Dừng và xóa", code: "docker stop web\ndocker rm web", resultLabel: "Chức năng", result: "Dừng container đang chạy rồi xóa container khi không dùng nữa." },
+    ],
+    layout: "command",
+    tone: "docker",
+  },
+  {
+    section: "Docker CLI",
+    kicker: "Quan sát & Compose",
+    title: "Các lệnh Docker cần biết: debug và Compose",
+    body: "Nhóm lệnh này dùng khi container đã chạy: xem trạng thái, đọc log, vào bên trong container, xem cấu hình và bật/tắt nhiều service bằng Compose.",
+    keyMessage: "Khi demo bị lỗi, đừng đoán. Hãy xem container có chạy không, log nói gì, cấu hình port/env ra sao và Compose đang quản lý service nào.",
+    points: ["Trạng thái", "Logs", "Inspect", "Compose"],
+    details: [
+      { label: "Debug", text: "Bắt đầu bằng trạng thái và log, sau đó mới vào container hoặc inspect cấu hình chi tiết." },
+      { label: "Compose", text: "Dùng docker compose khi app cần nhiều container như API, database, cache và monitoring." },
+    ],
+    commands: [
+      { label: "Xem container", code: "docker ps\ndocker ps -a", resultLabel: "Chức năng", result: "Xem container đang chạy và cả container đã dừng hoặc bị lỗi." },
+      { label: "Đọc log", code: "docker logs <container>", resultLabel: "Chức năng", result: "Xem output của app trong container để biết lỗi hoặc request vừa chạy." },
+      { label: "Vào container", code: "docker exec -it <container> sh", resultLabel: "Chức năng", result: "Mở shell bên trong container để kiểm tra file, env hoặc kết nối nhanh." },
+      { label: "Xem cấu hình", code: "docker inspect <container>", resultLabel: "Chức năng", result: "Xem thông tin chi tiết như port, network, env, mount và trạng thái container." },
+      { label: "Chạy stack", code: "docker compose up -d\ndocker compose ps", resultLabel: "Chức năng", result: "Bật nhiều service chạy nền và xem trạng thái từng service trong compose.yaml." },
+      { label: "Log và cleanup", code: "docker compose logs api --tail=40\ndocker compose down", resultLabel: "Chức năng", result: "Xem log service api rồi dừng và xóa container/network của stack demo." },
+    ],
+    layout: "command",
+    tone: "docker",
   },
   {
     section: "Demo",
@@ -345,7 +389,7 @@ const slideDefinitions = [
   },
   {
     section: "Wrap-up",
-    kicker: "Sau workshop",
+    kicker: "Sau buổi học",
     title: "Sau buổi này bạn đã biết",
     body: "Docker không cần học hết trong một buổi. Mục tiêu hôm nay là có mental model đúng và đủ tự tin thực hành tiếp.",
     keyMessage: "Nền tảng Docker bao gồm khả năng hiểu artifact, môi trường chạy, network, cấu hình và vòng đời container.",
@@ -368,9 +412,12 @@ const slideDefinitions = [
 ];
 
 const setupSlides = slideDefinitions.filter((slide) => slide.section === "Setup");
-const nonSetupSlides = slideDefinitions.slice(1).filter((slide) => slide.section !== "Setup");
+const demoSlides = slideDefinitions.filter((slide) => slide.section === "Demo");
+const coreSlides = slideDefinitions
+  .slice(1)
+  .filter((slide) => slide.section !== "Setup" && slide.section !== "Demo");
 
-export const slides = [slideDefinitions[0], ...setupSlides, ...nonSetupSlides];
+export const slides = [slideDefinitions[0], ...setupSlides, ...coreSlides, ...demoSlides];
 
 export function clampSlideIndex(index) {
   return Math.min(Math.max(index, 0), slides.length - 1);

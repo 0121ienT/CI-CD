@@ -183,7 +183,7 @@ function CommandBlocks({ commands }) {
             <code>{command.code}</code>
           </pre>
           <div className="expected">
-            <span>Expected result</span>
+            <span>{command.resultLabel ?? "Expected result"}</span>
             <strong>{command.result}</strong>
           </div>
         </article>
@@ -412,7 +412,7 @@ function App() {
     <main className="deckShell">
       <div className="slideCanvas" key={activeIndex}>
         <div className="topBar">
-          <span>Docker beginner workshop</span>
+          <span>Docker beginner course</span>
           <span>
             {String(activeIndex + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
           </span>

@@ -1,5 +1,5 @@
 {
-  "name": "docker-workshop-orders-app",
+  "name": "docker-orders-demo-app",
   "version": "1.0.0",
   "private": true,
   "type": "module",
