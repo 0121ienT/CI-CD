@@ -61,12 +61,34 @@ test("deck links to the full stack Compose example app", () => {
 test("deck includes Docker installation guidance for Windows and Linux", () => {
   const combined = slides.map(textOf).join(" ");
 
-  assert.match(combined, /Docker Desktop on Windows/);
+  assert.match(combined, /Cài Docker trên Windows/);
+  assert.match(combined, /Docker Desktop/);
   assert.match(combined, /WSL 2/);
+  assert.match(combined, /trước khi sử dụng/);
   assert.match(combined, /Docker Engine on Linux/);
+  assert.match(combined, /phần lõi chạy container/);
+  assert.match(combined, /Chọn đúng bản Linux/);
+  assert.match(combined, /Ubuntu, Debian, Fedora/);
   assert.match(combined, /docs\.docker\.com\/desktop\/setup\/install\/windows-install/);
   assert.match(combined, /docs\.docker\.com\/engine\/install/);
   assert.match(combined, /docker run hello-world/);
+});
+
+test("deck uses plain Vietnamese instead of the runtime term", () => {
+  const combined = slides.map(textOf).join(" ");
+
+  assert.match(combined, /môi trường chạy/);
+  assert.doesNotMatch(combined, /\bruntime\b/i);
+});
+
+test("container concept slide explains the idea in non-technical language", () => {
+  const containerSlide = slides.find((slide) => slide.title === "Container là gì");
+  const containerText = textOf(containerSlide);
+
+  assert.match(containerText, /gói chạy app/);
+  assert.match(containerText, /những thứ cần thiết để app chạy/);
+  assert.match(containerText, /dễ mang sang máy khác/);
+  assert.doesNotMatch(containerText, /kernel|process|filesystem|network/i);
 });
 
 test("Docker setup slides appear immediately after the cover slide", () => {
@@ -74,6 +96,27 @@ test("Docker setup slides appear immediately after the cover slide", () => {
   assert.equal(slides[1].kicker, "Windows");
   assert.equal(slides[2].section, "Setup");
   assert.equal(slides[2].kicker, "Linux");
+});
+
+test("demo slides use runnable commands from the Day2 example app", () => {
+  const demoSlides = slides.filter((slide) => slide.section === "Demo");
+  const demoText = demoSlides.map(textOf).join(" ");
+
+  assert.ok(demoSlides.length >= 3);
+
+  for (const slide of demoSlides) {
+    const commandText = (slide.commands ?? []).map((command) => command.code).join("\n");
+    assert.match(commandText, /Day2\/example-app/, `${slide.title} should point at the example app folder`);
+  }
+
+  assert.match(demoText, /docker compose up --build -d/);
+  assert.match(demoText, /http:\/\/localhost:3000\/health/);
+  assert.match(demoText, /POST|api\/orders/);
+  assert.match(demoText, /http:\/\/localhost:3000\/api\/stats/);
+  assert.match(demoText, /http:\/\/localhost:3000\/metrics/);
+  assert.match(demoText, /docker compose logs api/);
+  assert.match(demoText, /docker compose down/);
+  assert.doesNotMatch(demoText, /nginx:alpine|demo-api:v1/);
 });
 
 test("example app includes API, web, database, cache, and monitoring assets", () => {
