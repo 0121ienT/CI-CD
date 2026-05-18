@@ -4,8 +4,8 @@ name: Deploy Slide Decks to GitHub Pages
 # De workflow deploy duoc, vao repository Settings -> Pages -> Source -> GitHub Actions.
 #
 # Link sau khi deploy:
-# - Day1: https://0121ient.github.io/CI-CD/
-# - Day2: https://0121ient.github.io/CI-CD/Day2/
+# - Day1: https://0121ient.github.io/ml-data-engineering/Day1/
+# - Day2: https://0121ient.github.io/ml-data-engineering/Day2/
 
 on:
   push:
@@ -98,8 +98,8 @@ jobs:
       - name: Assemble Pages artifact
         shell: bash
         run: |
-          mkdir -p pages/Day2
-          cp -R Day1/dist/. pages/
+          mkdir -p pages/Day1 pages/Day2
+          cp -R Day1/dist/. pages/Day1/
           cp -R Day2/dist/. pages/Day2/
 
       - name: Configure Pages
