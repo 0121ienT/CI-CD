@@ -305,6 +305,7 @@ const slideDefinitions = [
       { label: "Env", text: "Truyền cấu hình như PORT, NODE_ENV hoặc DATABASE_URL khi run." },
       { label: "Secret", text: "Không hard-code password/token trong Dockerfile hoặc image, production nên dùng secret store của platform thay vì lưu thẳng trong code." },
     ],
+    visual: "analogy",
     layout: "concept",
     tone: "orange",
   },

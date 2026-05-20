@@ -66,11 +66,6 @@ const imageMap = {
     alt: "Nhóm cộng tác quanh laptop",
     source: "Unsplash",
   },
-  comparisonTable: {
-    src: publicAsset("/images/tool-comparison-table.png"),
-    alt: "Bảng so sánh GitLab, Bitbucket, GitHub và Jenkins",
-    source: "",
-  },
   basicHighLevelDesign: {
     src: publicAsset("/images/basic-high-level-design.png"),
     alt: "Ví dụ high-level design cơ bản cho hệ thống ML và Data",
@@ -146,7 +141,6 @@ export const slides = [
     body: "Mục tiêu của lớp là giúp bạn hiểu bức tranh tổng thể, biết cách thiết kế hệ thống và trình bày ý tưởng rõ ràng hơn.",
     keyMessage: "Bạn sẽ biết cách đi từ một bài toán ML/Data đến bản high-level design vẽ bằng Excalidraw và kế hoạch triển khai có thể giải thích được.",
     points: ["Xây dựng hệ thống ML/Data end-to-end", "Vẽ high-level design bằng Excalidraw", "Trình bày hệ thống rõ ràng"],
-    hidePoints: true,
     details: [
       { label: "Xây dựng", text: "Biết các bước chính để xây dựng và triển khai một hệ thống ML/Data từ đầu đến cuối." },
       { label: "Thiết kế", text: "Biết cách vẽ high-level design để người khác nhìn vào hiểu được hệ thống hoạt động ra sao." },
@@ -213,7 +207,6 @@ export const slides = [
     body: "Trước đây, nhiều team gom thay đổi trong thời gian dài rồi mới ghép lại. Khi đó lỗi thường xuất hiện muộn, khó tìm nguyên nhân và release rất khó khăn.",
     keyMessage: "CI/CD giúp chia việc lớn thành các thay đổi nhỏ, kiểm tra sớm hơn và giảm rủi ro khi đưa sản phẩm ra môi trường thật.",
     points: ["Gộp sớm", "Kiểm tra tự động", "Release nhỏ", "Dev và Ops cùng chịu trách nhiệm"],
-    hidePoints: true,
     details: [
       { label: "Vấn đề cũ", text: "Một release chứa quá nhiều thay đổi nên khi lỗi xảy ra, team khó biết lỗi đến từ đâu." },
       { label: "Cách tiếp cận mới", text: "Mỗi thay đổi đi qua cùng một đường kiểm tra, có log rõ ràng và có thể sửa sớm hơn." },
@@ -278,7 +271,6 @@ export const slides = [
     body: "Jenkins mạnh khi team cần self-hosted control, hạ tầng tùy biến và hệ sinh thái plugin lớn.",
     keyMessage: "Chọn Jenkins khi cần linh hoạt, nhưng phải tính đến bảo trì server, rủi ro plugin, credentials và operational ownership.",
     points: ["Jenkinsfile", "Agents", "Plugins", "Credentials", "Custom runners"],
-    hidePoints: true,
     details: [
       { label: "Phù hợp", text: "Môi trường enterprise phức tạp, private network, legacy integrations và self-managed runners." },
       { label: "Cần chú ý", text: "Plugin maintenance, upgrades, permissions và giữ pipelines dễ đọc theo thời gian." },
