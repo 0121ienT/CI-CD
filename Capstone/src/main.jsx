@@ -350,13 +350,6 @@ function Sidebar({ activeId, onSelect }) {
           );
         })}
       </ul>
-      <footer className="sidebarFooter">
-        <a href="https://github.com/0121ienT/ml-data-engineering" target="_blank" rel="noreferrer">
-          <FileCode2 aria-hidden="true" />
-          <span>Repo khóa học</span>
-          <ExternalLink aria-hidden="true" />
-        </a>
-      </footer>
     </nav>
   );
 }
@@ -407,7 +400,7 @@ function App() {
       <main className="content">
         <header className="pageHeader">
           <span className="pageEyebrow">Khóa học · CI/CD + Docker cho ML/Data</span>
-          <h1>{meta.title}</h1>
+          <h1>Bài Tập - CI/CD Auto Deploy</h1>
           <p>
             Trang dành cho 4 nhóm đề tài HIT-PYTHON-2026. Mỗi nhóm thực hiện 3 tính năng mới trên repo hiện tại và thiết kế
             CI/CD pipeline tự động deploy lên cloud được cung cấp.
