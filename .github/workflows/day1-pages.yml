@@ -4,8 +4,9 @@ name: Deploy Slide Decks to GitHub Pages
 # De workflow deploy duoc, vao repository Settings -> Pages -> Source -> GitHub Actions.
 #
 # Link sau khi deploy:
-# - Day1: https://0121ient.github.io/ml-data-engineering/Day1/
-# - Day2: https://0121ient.github.io/ml-data-engineering/Day2/
+# - Day1:     https://0121ient.github.io/ml-data-engineering/Day1/
+# - Day2:     https://0121ient.github.io/ml-data-engineering/Day2/
+# - Capstone: https://0121ient.github.io/ml-data-engineering/Capstone/
 
 on:
   push:
@@ -14,6 +15,7 @@ on:
     paths:
       - "Day1/**"
       - "Day2/**"
+      - "Capstone/**"
       - ".github/workflows/day1-pages.yml"
   workflow_dispatch:
 
@@ -36,6 +38,7 @@ jobs:
         deck:
           - Day1
           - Day2
+          - Capstone
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,6 +77,7 @@ jobs:
           cache-dependency-path: |
             Day1/package-lock.json
             Day2/package-lock.json
+            Capstone/package-lock.json
 
       - name: Install Day1 dependencies
         working-directory: Day1
@@ -95,12 +99,23 @@ jobs:
         env:
           GITHUB_PAGES: "true"
 
+      - name: Install Capstone dependencies
+        working-directory: Capstone
+        run: npm ci
+
+      - name: Build Capstone
+        working-directory: Capstone
+        run: npm run build
+        env:
+          GITHUB_PAGES: "true"
+
       - name: Assemble Pages artifact
         shell: bash
         run: |
-          mkdir -p pages/Day1 pages/Day2
+          mkdir -p pages/Day1 pages/Day2 pages/Capstone
           cp -R Day1/dist/. pages/Day1/
           cp -R Day2/dist/. pages/Day2/
+          cp -R Capstone/dist/. pages/Capstone/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
