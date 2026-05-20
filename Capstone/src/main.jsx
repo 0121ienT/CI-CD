@@ -48,12 +48,19 @@ const sectionIcons = {
   submission: Flag,
 };
 
-function Eyebrow({ kicker, title, icon: Icon }) {
+function Eyebrow({ kicker, title }) {
+  const [primary, secondary] = String(kicker).split(/\s+·\s+/, 2);
+
   return (
-    <header className="eyebrow">
-      <div className="eyebrowKicker">
-        {Icon ? <Icon aria-hidden="true" /> : null}
-        <span>{kicker}</span>
+    <header>
+      <div className="eyebrow">
+        <span className="eyebrowSection">{primary}</span>
+        {secondary ? (
+          <>
+            <span className="eyebrowDivider" aria-hidden="true" />
+            <span className="eyebrowKicker">{secondary}</span>
+          </>
+        ) : null}
       </div>
       <h2>{title}</h2>
     </header>
@@ -63,7 +70,7 @@ function Eyebrow({ kicker, title, icon: Icon }) {
 function Overview() {
   return (
     <section className="block" id="tong-quan">
-      <Eyebrow kicker="Bối cảnh" title={meta.title} icon={Compass} />
+      <Eyebrow kicker="Tổng quan · Bối cảnh" title={meta.title} />
       <p className="lead">{meta.intro}</p>
       <aside className="callout">
         <Sparkles aria-hidden="true" />
@@ -93,7 +100,7 @@ function Overview() {
 function CiCd() {
   return (
     <section className="block" id="ci-cd">
-      <Eyebrow kicker="Yêu cầu chung" title="CI/CD pipeline cho cả 4 nhóm" icon={Workflow} />
+      <Eyebrow kicker="CI/CD chung · Pipeline" title="CI/CD pipeline cho cả 4 nhóm" />
       <p className="lead">
         Pipeline được trigger trên mỗi <code>push</code> vào branch <code>main</code> của repo nhóm. Chọn GitHub Actions hoặc Jenkins
         — chọn 1 và bảo vệ được lựa chọn.
@@ -137,7 +144,7 @@ function CiCd() {
 function CloudSection() {
   return (
     <section className="block" id="cloud">
-      <Eyebrow kicker="Tài nguyên" title="Cloud được cung cấp" icon={Cloud} />
+      <Eyebrow kicker="Hạ tầng · Tài nguyên" title="Cloud được cung cấp" />
       <div className="resourceGrid">
         {cloudResources.map((item) => (
           <article key={item}>
@@ -160,7 +167,6 @@ function GroupBlock({ group }) {
       <Eyebrow
         kicker={`Nhóm ${group.number} · ${group.codename}`}
         title={group.name}
-        icon={Users}
       />
       {group.repo ? (
         <a className="repoLink" href={group.repo} target="_blank" rel="noreferrer">
@@ -211,7 +217,7 @@ function GroupBlock({ group }) {
 function Submission() {
   return (
     <section className="block" id="nop-bai">
-      <Eyebrow kicker="Vận hành" title="Quy trình làm việc, nộp bài & chấm" icon={Flag} />
+      <Eyebrow kicker="Vận hành · Nộp bài" title="Quy trình làm việc, nộp bài & chấm" />
       <h3 className="subHeading">
         <Rocket aria-hidden="true" />
         Mốc thời gian (6 tuần)
