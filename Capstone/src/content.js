@@ -90,30 +90,29 @@ export const groups = [
         description:
           "Thêm nhánh xử lý âm thanh song song với khuôn mặt. Stream micro vào một mô hình Speech Emotion Recognition trên window 2 giây có overlap. Sau đó fusion với output video stream để cho ra một emotion score chung kèm độ tin cậy.",
         constraints: [
-          "Đồng bộ timestamp audio và video frame trong khoảng 150 ms và mô tả cách xử lý drift.",
-          "So sánh early fusion và late fusion, chọn 1 cách và giải thích ưu nhược điểm.",
-          "Khi 1 trong 2 modality bị thiếu, pipeline vẫn trả kết quả với confidence điều chỉnh xuống.",
-          "Latency end-to-end dưới 600 ms ở P95.",
+          "Đồng bộ timestamp audio và video frame trong khoảng vài trăm ms.",
+          "Khi 1 trong 2 modality bị thiếu, pipeline vẫn trả kết quả thay vì crash.",
+          "Latency end-to-end dưới 1 giây ở P95.",
         ],
       },
       {
         title: "Emotion Drift Monitoring + Online Retraining",
         description:
-          "Mỗi prediction được log kèm confidence và embedding. Build dashboard drift detection theo tuần so với phân phối lúc train. Khi vượt ngưỡng thì trích sample khó ra storage, mở review UI gắn nhãn, retrain và deploy shadow trước khi promote.",
+          "Mỗi prediction được log kèm confidence. Có dashboard theo dõi phân phối kết quả theo tuần. Khi có dấu hiệu lệch nhiều so với lúc train thì trích sample khó ra storage, mở UI cho người gắn nhãn lại và retrain.",
         constraints: [
-          "Vẽ data flow từ inference log đến drift score, retrain, shadow và promote, có rõ điểm kill-switch.",
-          "Schema feedback DB phải có audit trail: ai gắn nhãn, khi nào và lý do.",
-          "Canary metric rõ ràng: model mới chỉ promote khi accuracy không tụt quá 2% trên holdout cố định.",
+          "Có sơ đồ data flow từ inference log đến retrain và promote, có điểm dừng (kill-switch).",
+          "Schema feedback DB ghi nhận ai gắn nhãn và khi nào.",
+          "Model mới chỉ promote khi accuracy trên holdout không tụt quá 3% so với bản hiện tại.",
         ],
       },
       {
         title: "Multi-tenant Analytics Dashboard",
         description:
-          "Tổ chức đăng ký 1 workspace. Mỗi workspace có RBAC, heatmap cảm xúc theo lớp hoặc ca, time-series xu hướng theo ngày và alert engine khi tỷ lệ negative vượt threshold.",
+          "Mỗi tổ chức đăng ký 1 workspace riêng. Mỗi workspace có RBAC, heatmap cảm xúc theo lớp hoặc ca, biểu đồ xu hướng theo ngày và alert khi tỷ lệ negative vượt threshold.",
         constraints: [
-          "Privacy: không lưu ảnh khuôn mặt raw quá 7 ngày, chỉ giữ embedding đã hash kèm metadata. Mô tả cách xoá tự động.",
-          "Multi-tenancy: chọn pattern phù hợp và bảo vệ lựa chọn theo chi phí và mức cô lập dữ liệu.",
-          "Integration test giả lập 2 workspace truy vấn cùng lúc và đảm bảo không leak dữ liệu chéo.",
+          "Privacy: không lưu ảnh khuôn mặt raw quá 14 ngày, chỉ giữ embedding kèm metadata.",
+          "Mỗi tenant có dữ liệu riêng và có RBAC cơ bản.",
+          "Có test kiểm tra 2 tenant không thấy được dữ liệu của nhau.",
         ],
       },
     ],
@@ -131,10 +130,9 @@ export const groups = [
         description:
           "Sau khi detect xe, crop biển số rồi đưa vào OCR phù hợp biển Việt Nam. Match kết quả vào DB xe đăng ký, ghi log entry và exit, tính phí gửi theo bảng giá có thể cấu hình.",
         constraints: [
-          "Hậu xử lý OCR bằng whitelist ký tự cộng so khớp gần đúng với danh sách xe đã đăng ký.",
-          "Chống double-billing: cùng xe quét nhiều khung liên tiếp chỉ tạo 1 session. Mô tả state machine ENTER, INSIDE, EXIT kèm timeout.",
-          "Báo cáo thử nghiệm tối thiểu 20 ảnh khó tự chụp, bao gồm xe khuất một phần biển hoặc ánh sáng yếu.",
-          "Schema billing có 4 bảng vehicle, session, rate_card và transaction kèm migration script.",
+          "Hậu xử lý OCR bằng whitelist ký tự và so khớp với danh sách xe đã đăng ký.",
+          "Cùng xe trong nhiều khung liên tiếp chỉ tạo 1 session, tránh ghi trùng phí.",
+          "Báo cáo thử nghiệm tối thiểu 10 ảnh tự chụp với điều kiện khó như ánh sáng yếu hoặc xe khuất một phần biển.",
         ],
       },
       {
@@ -142,10 +140,9 @@ export const groups = [
         description:
           "Nhiều camera quay cùng 1 bãi từ các góc khác nhau. Stream qua message queue thay vì HTTP trực tiếp. Track xuyên khung và xuyên camera, không đếm trùng khi xe di chuyển giữa các zone.",
         constraints: [
-          "Đồng bộ camera qua NTP và mô tả cách bù khi camera mất kết nối tạm thời.",
-          "Calibration đưa pixel của frame về sơ đồ 2D của bãi. Có tool calibration để click các điểm gốc lúc setup.",
-          "Backpressure: queue không phình quá ngưỡng, drop frame cũ nhất với policy rõ ràng.",
-          "Throughput tối thiểu 2 camera ở 10 FPS xử lý song song trên 1 GPU.",
+          "Có cơ chế đồng bộ frame giữa các camera và mô tả cách bù khi 1 camera mất kết nối tạm thời.",
+          "Map pixel của frame về sơ đồ 2D của bãi để biết xe đang ở zone nào.",
+          "Throughput tối thiểu 2 camera ở 5 FPS xử lý song song.",
         ],
       },
       {
@@ -153,10 +150,9 @@ export const groups = [
         description:
           "Một model time-series dự đoán độ trống của bãi ở các mốc 15, 30 và 60 phút tới dựa trên lịch sử và thời tiết. User hỏi tới sau bao nhiêu phút thì bãi còn không, hệ thống trả về xác suất kèm slot gợi ý.",
         constraints: [
-          "Feature engineering rõ ràng với các yếu tố thời gian, ngày lễ và thời tiết. Vẽ tầm quan trọng của feature.",
-          "Versioning model rõ: nếu model mới predict lệch quá ngưỡng MAE trong tuần đầu thì tự rollback.",
-          "Online evaluation: log mọi prediction kèm thời điểm dự đoán và so với thực tế khi tới mốc, vẽ MAE chart.",
-          "Latency query phía user dưới 300 ms khi cache hit.",
+          "Feature engineering với các yếu tố thời gian và thời tiết, có giải thích lựa chọn feature.",
+          "Có dashboard so sánh prediction với thực tế để theo dõi sai số theo tuần.",
+          "Latency query phía user dưới 500 ms khi cache hit.",
         ],
       },
     ],
@@ -174,21 +170,19 @@ export const groups = [
         description:
           "Stream webcam đi qua một mô hình trích keypoint cơ thể, sau đó đưa vào một temporal model để dịch sang câu tiếng Việt có ngữ pháp đúng. Có thể thêm TTS nếu còn thời gian.",
         constraints: [
-          "Streaming thay vì batch: dùng sliding window có overlap và beam search decoder. Định nghĩa rõ khi nào câu kết thúc.",
-          "Latency dưới 500 ms ở P95 từ kết thúc cử chỉ đến hiển thị câu dịch.",
-          "Khi confidence dưới ngưỡng, hiển thị top-3 ứng viên cho user xác nhận.",
-          "Dataset tự thu tối thiểu 100 câu của 2 người ký, kèm augment và annotation guideline.",
+          "Streaming với sliding window có overlap, không xử lý theo từng đoạn rời.",
+          "Latency dưới 1 giây ở P95 từ kết thúc cử chỉ đến hiển thị câu dịch.",
+          "Dataset tự thu tối thiểu 50 câu của 1 đến 2 người ký, kèm annotation guideline.",
         ],
       },
       {
         title: "Multi-user Gesture Collaborative 3D Workspace",
         description:
-          "Nhiều user mỗi người 1 webcam cùng vào 1 phòng, dùng cử chỉ xoay, scale, di chuyển hoặc vẽ trên đối tượng 3D chung trong browser. Không truyền video, chỉ truyền pose keypoint giữa các client qua WebRTC DataChannel.",
+          "Nhiều user mỗi người 1 webcam cùng vào 1 phòng, dùng cử chỉ xoay, scale, di chuyển hoặc vẽ trên đối tượng 3D chung trong browser. Không truyền video, chỉ truyền pose keypoint giữa các client.",
         constraints: [
-          "Conflict resolution khi 2 user cùng grab 1 object: chọn CRDT hoặc OT, mô tả lý do và ví dụ minh hoạ.",
-          "Gesture FSM mỗi tay có các state idle, tracking, engaged-pinch, drag, release, kèm state diagram và debounce time.",
-          "UX rõ ràng: user nhìn được tay nào của ai đang điều khiển object nào, có ghosted cursor 3D màu theo user.",
-          "Scale test với 3 user cùng phòng, FPS tối thiểu 24, RTT dưới 200 ms trên LAN.",
+          "Có cơ chế xử lý khi 2 user cùng thao tác với 1 object cùng lúc.",
+          "UX cho người dùng biết tay nào của ai đang điều khiển object nào.",
+          "Scale test với 2 user cùng phòng, FPS tối thiểu 15.",
         ],
       },
       {
@@ -196,10 +190,9 @@ export const groups = [
         description:
           "User đăng ký gesture passphrase là chuỗi 3 đến 5 cử chỉ trong không gian 3D. Model học pattern theo người. Mỗi lần đăng nhập: kiểm tra liveness, so với template trong DB và cập nhật template khi có drift nhẹ.",
         constraints: [
-          "Threat model rõ ràng với tối thiểu 4 kịch bản tấn công, mỗi kịch bản đi kèm biện pháp giảm thiểu.",
-          "Fallback khi auth fail 3 lần liên tiếp: lock tài khoản, gửi cảnh báo và mở fallback qua OTP.",
-          "Privacy: template chỉ lưu embedding đã mã hoá at rest, có mô tả key rotation policy.",
-          "Performance một lần auth end-to-end dưới 2 giây.",
+          "Threat model với tối thiểu 2 kịch bản tấn công và biện pháp giảm thiểu tương ứng.",
+          "Khi auth fail nhiều lần liên tiếp, có cơ chế lock và fallback an toàn.",
+          "Performance một lần auth end-to-end dưới 3 giây.",
         ],
       },
     ],
@@ -215,34 +208,31 @@ export const groups = [
       {
         title: "Hybrid Text + Image Search bằng mô hình đa modal",
         description:
-          "Cho phép user kết hợp ảnh và text trong cùng 1 query. Swap mô hình embedding sang một mô hình đa modal, reindex toàn bộ vector database. Hỗ trợ weighting giữa image và text, hỗ trợ negation chuyển sang filter SQL.",
+          "Cho phép user kết hợp ảnh và text trong cùng 1 query. Swap mô hình embedding sang một mô hình đa modal, reindex toàn bộ vector database. Hỗ trợ weighting giữa image và text.",
         constraints: [
-          "Migration: đổi model là đổi vector space, phải tạo collection mới song song và có feature flag để A/B test trước khi cắt sang.",
-          "Re-ranking pass 2 với cross-encoder: từ top-100 chọn lại top-10.",
-          "Latency search end-to-end dưới 500 ms ở P95 kể cả khi có rerank.",
-          "Evaluation Recall@10 và MRR trên tập đánh giá tối thiểu 100 query có ground-truth tự build.",
+          "Có feature flag để A/B test giữa model cũ và model mới trước khi cắt hẳn sang.",
+          "Latency search end-to-end dưới 1 giây ở P95.",
+          "Evaluation Recall@10 trên tập đánh giá tối thiểu 50 query có ground-truth tự build.",
         ],
       },
       {
         title: "Federated Learning Personalized Recommendation",
         description:
-          "Lịch sử người dùng train một model nhỏ trên thiết bị. Client gửi gradient hoặc delta đã thêm DP-noise về server, server federated average thành model toàn cục. Không lưu raw behavior trên server.",
+          "Lịch sử người dùng train một model nhỏ trên thiết bị. Client gửi update đã thêm noise về server, server tổng hợp thành model toàn cục. Không lưu raw behavior trên server.",
         constraints: [
-          "Model nhỏ dưới 5 MB, distill từ một teacher model lớn hơn.",
-          "DP-SGD có chọn privacy budget cụ thể và giải thích trade-off accuracy vs privacy.",
-          "Anti-poisoning: client update có chữ ký, server có cơ chế chống malicious client thay vì trung bình đơn thuần.",
-          "Evaluation: AB-test recommendation từ federated model so với baseline collaborative filtering trong tối thiểu 1 tuần.",
+          "Model client-side có dung lượng nhỏ và chạy được trên thiết bị thông thường.",
+          "Có cơ chế thêm noise vào update để bảo vệ thông tin cá nhân.",
+          "Server có cơ chế kiểm tra cơ bản với client update bất thường.",
         ],
       },
       {
         title: "Inventory-aware Re-ranking + Sponsored Slot",
         description:
-          "Khi user search, kết quả được re-rank theo stock, margin, brand bid, mùa và độ đa dạng thương hiệu. Brand dashboard mới hiển thị CTR, conversion theo slot và lịch sử bid minh bạch.",
+          "Khi user search, kết quả được re-rank theo stock, margin, brand bid, mùa và độ đa dạng thương hiệu. Brand dashboard mới hiển thị CTR, conversion theo slot và lịch sử bid.",
         constraints: [
-          "Learning-to-rank dùng LightGBM hoặc neural ranker, train trên click log có hiệu chỉnh counterfactual.",
-          "Feature store online cập nhật stock, margin và bid trong vòng vài giây.",
-          "Latency tổng của similarity search, rerank và auction dưới 300 ms ở P95.",
-          "Fairness: brand nhỏ được đảm bảo hiển thị tối thiểu một tỉ lệ slot mỗi ngày.",
+          "Learning-to-rank cơ bản dựa trên click log đã được làm sạch.",
+          "Feature store cập nhật stock, margin và bid trong vòng vài giây.",
+          "Latency tổng của similarity search, rerank và auction dưới 500 ms ở P95.",
         ],
       },
     ],
